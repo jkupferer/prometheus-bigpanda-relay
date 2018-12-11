@@ -1,0 +1,32 @@
+---
+apiVersion: build.openshift.io/v1
+kind: BuildConfig
+metadata:
+  labels:
+    app: prometheus-bigpanda-relay
+  name: prometheus-bigpanda-relay
+  namespace: openshift-monitoring
+spec:
+  failedBuildsHistoryLimit: 5
+  output:
+    to:
+      kind: ImageStreamTag
+      name: prometheus-bigpanda-relay:latest
+  postCommit:
+    script: npm test
+  resources: {}
+  runPolicy: Serial
+  source:
+    git:
+      uri: https://github.com/jkupferer/prometheus-bigpanda-relay.git
+  strategy:
+    sourceStrategy:
+      env:
+      - name: NPM_MIRROR
+      from:
+        kind: ImageStreamTag
+        name: nodejs:8
+        namespace: openshift
+    type: Source
+  successfulBuildsHistoryLimit: 5
+  triggers: []

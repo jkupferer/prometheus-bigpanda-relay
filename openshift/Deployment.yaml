@@ -1,0 +1,74 @@
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  labels:
+    app: prometheus-bigpanda-relay
+  name: prometheus-bigpanda-relay
+  namespace: openshift-monitoring
+spec:
+  progressDeadlineSeconds: 600
+  replicas: 1
+  revisionHistoryLimit: 10
+  selector:
+    matchLabels:
+      app: prometheus-bigpanda-relay
+  strategy:
+    rollingUpdate:
+      maxSurge: 25%
+      maxUnavailable: 25%
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        app: prometheus-bigpanda-relay
+      name: prometheus-bigpanda-relay
+    spec:
+      affinity:
+        podAntiAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+          - podAffinityTerm:
+              labelSelector:
+                matchLabels:
+                  app: prometheus-bigpanda-relay
+              topologyKey: kubernetes.io/hostname
+            weight: 100
+      containers:
+      - name: relay
+        env:
+        - name: BIGPANDA_URL
+          value: ...
+        - name: BIGPANDA_TOKEN
+          value: ...
+        - name: BIGPANDA_APP_KEY
+          value: ...
+        image: docker-registry.default.svc:5000/openshift-monitoring/prometheus-bigpanda-relay:latest
+        imagePullPolicy: Always
+        livenessProbe:
+          httpGet:
+            path: /
+            port: 8080
+          initialDelaySeconds: 30
+          timeoutSeconds: 3
+        ports:
+        - containerPort: 8080
+          protocol: TCP
+        readinessProbe:
+          httpGet:
+            path: /
+            port: 8080
+          periodSeconds: 10
+          successThreshold: 1
+          timeoutSeconds: 1
+        resources:
+          limits:
+            cpu: "1"
+            memory: 200Mi
+          requests:
+            cpu: 100m
+            memory: 100Mi
+        terminationMessagePath: /dev/termination-log
+        terminationMessagePolicy: File
+      dnsPolicy: ClusterFirst
+      restartPolicy: Always
+      terminationGracePeriodSeconds: 30
