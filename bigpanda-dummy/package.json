@@ -22,12 +22,12 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/jkupferer/bigpanda-prometheus-relay.git"
+    "url": "https://github.com/jkupferer/prometheus-bigpanda-relay.git"
   },
   "author": "Johnathan Kupferer <jkupfere@redhat.com>",
   "license": "CC-BY-1.0",
   "bugs": {
-    "url": "https://github.com/jkupferer/bigpanda-prometheus-relay/issues"
+    "url": "https://github.com/jkupferer/prometheus-bigpanda-relay/issues"
   },
-  "homepage": "https://github.com/jkupferer/bigpanda-prometheus-relay"
+  "homepage": "https://github.com/jkupferer/prometheus-bigpanda-relay"
 }

@@ -34,6 +34,9 @@ app.post('/alert', function (req, res) {
   var bigPandaAlerts = []
   for (alertNumber in req.body.alerts) {
     var alertData = req.body.alerts[alertNumber]
+    if (process.env.DEBUG == 'true' ) {
+      console.log('DEBUG prometheus alert: ', JSON.stringify(alertData))
+    }
     //console.log(JSON.stringify(alertData))
     console.log(
       "Reporting on " + alertData.labels.alertname +
@@ -55,7 +58,10 @@ app.post('/alert', function (req, res) {
         bigPandaAlert['status'] = 'warning'
       }
     } else {
-        bigPandaAlert['status'] = 'ok'
+      bigPandaAlert['status'] = 'ok'
+    }
+    if (process.env.DEBUG == 'true' ) {
+      console.log('DEBUG bigpanda alert: ', JSON.stringify(bigPandaAlert))
     }
     bigPandaAlerts.push(bigPandaAlert)
   }
