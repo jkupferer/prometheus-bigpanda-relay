@@ -71,7 +71,12 @@ app.post('/alert', function (req, res) {
     })
   }, (error, response, body) => {
     if (error) {
-      console.dir(error)
+      console.log('error:', error)
+    } else if(response.statusCode != 200) {
+      console.log('send failed: ' + JSON.stringify({
+        "statusCode": response.statusCode,
+        "body": body
+      }))
     }
   })
   res.send('"ok"')
