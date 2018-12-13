@@ -45,11 +45,15 @@ app.post('/alert', function (req, res) {
     var bigPandaAlert = {
       "host": alertData.labels.job,
       "check": alertData.labels.alertname,
-      "description": alertData.annotations.message,
       "cluster": alertData.labels.cluster,
       "startsAt": alertData.startsAt,
       "endsAt": alertData.endsAt,
       "generatorURL": alertData.generatorURL
+    }
+    if ( 'message' in alertData.annotations ) {
+      bigPandaAlert.description = alertData.annotations.message
+    } else {
+      bigPandaAlert.description = alertData.annotations.description
     }
     if (alertData['status'] == 'firing') {
       if (alertData['labels']['severity'] == 'critical') {
