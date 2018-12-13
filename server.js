@@ -42,19 +42,18 @@ app.post('/alert', function (req, res) {
       "Reporting on " + alertData.labels.alertname +
       " is " + alertData['status']
     )
+    // Start building bigPandaAlert
     var bigPandaAlert = {
       "host": alertData.labels.job,
       "check": alertData.labels.alertname,
       "cluster": alertData.labels.cluster,
       "startsAt": alertData.startsAt,
       "endsAt": alertData.endsAt,
-      "generatorURL": alertData.generatorURL
+      "description": alertData.annotations.summary || alertData.annotations.description || alertData.annotations.message,
+      "message": alertData.annotations.description || alertData.annotations.message,
+      "details": alertData.generatorURL
     }
-    if ( 'message' in alertData.annotations ) {
-      bigPandaAlert.description = alertData.annotations.message
-    } else {
-      bigPandaAlert.description = alertData.annotations.description
-    }
+
     if (alertData['status'] == 'firing') {
       if (alertData['labels']['severity'] == 'critical') {
         bigPandaAlert['status'] = 'critical'
