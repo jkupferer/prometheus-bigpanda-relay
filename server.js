@@ -78,7 +78,19 @@ app.post('/alert', function (req, res) {
   }, (error, response, body) => {
     if (error) {
       console.log('error:', error)
-    } else if(response.statusCode != 200) {
+    } else if(response.statusCode == 200) {
+      if (process.env.DEBUG == 'true' ) {
+        console.log('DEBUG received 200 OK response from bigpanda')
+      }
+    } else if(response.statusCode == 201) {
+      if (process.env.DEBUG == 'true' ) {
+        console.log('DEBUG received 201 Created response from bigpanda')
+      }
+    } else if(response.statusCode == 204) {
+      if (process.env.DEBUG == 'true' ) {
+        console.log('DEBUG received 201 No Content (deduplicated) response from bigpanda')
+      }
+    } else {
       console.log('send failed: ' + JSON.stringify({
         "statusCode": response.statusCode,
         "body": body
