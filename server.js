@@ -44,7 +44,7 @@ app.post('/alert', function (req, res) {
     )
     // Start building bigPandaAlert
     var bigPandaAlert = {
-      "host": alertData.labels.job,
+      "host": alertData.labels.job || alertData.labels.alertname,
       "check": alertData.labels.alertname,
       "cluster": alertData.labels.cluster,
       "startsAt": alertData.startsAt,
