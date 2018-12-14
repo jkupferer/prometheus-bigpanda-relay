@@ -77,7 +77,8 @@ app.post('/alert', function (req, res) {
     "body": JSON.stringify({
       "app_key": process.env.BIGPANDA_APP_KEY,
       "alerts": bigPandaAlerts
-    })
+    }),
+    "proxy": process.env.https_proxy
   }, (error, response, body) => {
     if (error) {
       console.log('error:', error)
