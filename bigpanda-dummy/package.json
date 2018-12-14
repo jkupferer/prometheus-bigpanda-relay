@@ -5,10 +5,10 @@
   "main": "server.js",
   "dependencies": {
     "chai": "^3.5.0",
-    "chai-http": "^2.0.1",
+    "chai-http": "^4.2.0",
     "ejs": "^2.4.1",
     "express": "^4.13.4",
-    "mocha": "^2.4.5",
+    "mocha": "^5.2.0",
     "morgan": "^1.7.0",
     "object-assign":"4.1.0"
   },
@@ -18,7 +18,7 @@
   },
   "scripts": {
     "start": "node server.js",
-    "test": "IP=0.0.0.0 PORT=3030 mocha --timeout 5000 tests/*_test.js"
+    "test": "IP=0.0.0.0 PORT=3030 mocha --timeout 5000 tests/*_test.js --exit"
   },
   "repository": {
     "type": "git",
